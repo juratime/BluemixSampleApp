@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using WebApplication;
 
 public class Startup
 {
@@ -22,6 +23,11 @@ public class Startup
     {
         // Add framework services.
         services.AddMvc();
+
+        services.AddDotVVM(options =>
+        {
+            options.AddDefaultTempStorages("Temp");
+        });
     }
 
     public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -47,5 +53,7 @@ public class Startup
                 name: "default",
                 template: "{controller=Home}/{action=Index}/{id?}");
         });
+
+        var config = app.UseDotVVM<DotvvmStartup>();
     }
 }
